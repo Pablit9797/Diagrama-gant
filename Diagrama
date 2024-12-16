@@ -1,0 +1,37 @@
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+
+# Definir actividades y duraciones
+activities = [
+    {"name": "A1 - Recolección de Requisitos", "start": "2024-01-01", "duration": 10},
+    {"name": "A2 - Diseño de la Plataforma", "start": "2024-01-11", "duration": 15},
+    {"name": "A3 - Desarrollo de la Aplicación Móvil", "start": "2024-01-26", "duration": 40},
+    {"name": "A4 - Implementación de Seguridad", "start": "2024-03-06", "duration": 20},
+    {"name": "A5 - Pruebas Funcionales", "start": "2024-03-26", "duration": 15},
+    {"name": "A6 - Optimización de Rutas", "start": "2024-01-26", "duration": 25},
+    {"name": "A7 - Implementación de Facturación", "start": "2024-03-06", "duration": 10},
+    {"name": "A8 - Capacitación y Documentación", "start": "2024-04-10", "duration": 10},
+    {"name": "A9 - Entrega Final", "start": "2024-04-20", "duration": 5},
+]
+
+# Convertir fechas y calcular fin de actividades
+for activity in activities:
+    activity["start_date"] = datetime.strptime(activity["start"], "%Y-%m-%d")
+    activity["end_date"] = activity["start_date"] + timedelta(days=activity["duration"])
+
+# Crear diagrama de Gantt
+fig, ax = plt.subplots(figsize=(10, 6))
+
+for i, activity in enumerate(activities):
+    ax.barh(activity["name"], activity["duration"], left=activity["start_date"].toordinal(), color="skyblue")
+
+# Configurar ejes y etiquetas
+ax.set_xlabel("Fecha")
+ax.set_ylabel("Actividades")
+ax.set_title("Diagrama de Gantt - Proyecto")
+ax.set_yticks(range(len(activities)))
+ax.set_yticklabels([activity["name"] for activity in activities])
+ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.fromordinal(int(x)).strftime("%Y-%m-%d")))
+
+plt.tight_layout()
+plt.show()
